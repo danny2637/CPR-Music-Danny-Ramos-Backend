@@ -36,6 +36,20 @@ class Piece(models.Model):
     ensemble_type = models.ForeignKey(EnsembleType, on_delete=models.PROTECT)
     accompaniment = models.FileField(blank=True, upload_to="accompaniments/")
 
+    STATUS_CHOICES = [
+        ('DRAFT', 'Draft'),
+        ('SUBMITTED', 'Submitted'),
+        ('REVIEWING', 'Reviewing'),
+        ('PUBLISHED', 'Published'),
+        ('ARCHIVED', 'Archived'),
+    ]
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='PUBLISHED',
+    )
+
     def save(self, *args, **kwargs):
         if not self.pk:
             generate_slug_from_name(self, Piece)
