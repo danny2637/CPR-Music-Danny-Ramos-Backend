@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 from teleband.instruments.models import Transposition
 from teleband.utils.fields import generate_slug_from_name
@@ -30,6 +31,7 @@ class Piece(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField()
     composer = models.ForeignKey(Composer, null=True, on_delete=models.PROTECT)
+    arranger = models.ForeignKey(settings.AUTH_USER_MODEL,null=True,on_delete=models.SET_NULL,)
     video = models.URLField(blank=True)
     audio = models.URLField(blank=True)
     date_composed = models.DateField(null=True, blank=True)
